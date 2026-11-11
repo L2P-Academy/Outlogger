@@ -1,1 +1,19 @@
 /bin/
+
+# Eclipse-spezifische Dateien ignorieren
+.metadata/
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~
+.classpath
+.project
+.settings/
+ 
+# Mac-spezifische Systemdateien ignorieren
+.DS_Store
+
+# ignore log data
+*.log
