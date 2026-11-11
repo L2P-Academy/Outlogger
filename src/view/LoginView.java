@@ -37,7 +37,7 @@ public class LoginView extends JFrame{
 		setTitle("Outlogger - Security Simulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(900, 600);
-		setResizable(false);
+		setResizable(false); 
 		
 		// background panel		
 		centerPanel = new BackGroundPanel(new ImageIcon("res/cybersecurity_bg.png").getImage());
