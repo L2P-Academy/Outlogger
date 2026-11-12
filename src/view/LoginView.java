@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -21,6 +23,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
+import controller.LoginController;
+import controller.LoginController.LogLevel;
+
 public class LoginView extends JFrame{
 	// attributes
 	// containers
@@ -33,11 +38,15 @@ public class LoginView extends JFrame{
 	private JButton loginButton, registerButton, closeButton, showPwButton;
 	
 	public LoginView() {
+		// initialize controller
+		LoginController loginController = new LoginController();
+		
 		// initial window parameters
 		setTitle("Outlogger - Security Simulator");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(900, 600);
-		setResizable(false); 
+		setResizable(false);
+		setUndecorated(true);
 		
 		// background panel		
 		centerPanel = new BackGroundPanel(new ImageIcon("res/cybersecurity_bg.png").getImage());
@@ -105,6 +114,34 @@ public class LoginView extends JFrame{
 		buttonPanel.add(registerButton);
 		buttonPanel.add(closeButton);
 		buttonPanel.setOpaque(false);
+		
+		// actions / events
+		loginButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loginController.writeActivityToLogFile(LogLevel.WARNING, "User " + userNameTextField.getText() + " tried to"
+						+ "login with password: " + passwordField.getPassword().toString() + " but doesn't exist in AuthDB!");
+			}
+		});
+		
+		registerButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loginController.writeActivityToLogFile(LogLevel.NOTICE, "User " + userNameTextField.getText() + " registered.");
+			}
+		});
+		
+		closeButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loginController.writeActivityToLogFile(LogLevel.INFO, "LoginView.java closed by User: "
+						+ userNameTextField.getText());
+				dispose();				
+			}
+		});
 		
 		// final window parameters
 		getContentPane().add(headerLabel, BorderLayout.NORTH);
