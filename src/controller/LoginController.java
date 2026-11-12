@@ -13,7 +13,25 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import model.UserModel;
+import view.LoginView;
+
 public class LoginController {
+	
+	private UserModel userModel;
+	private LoginView loginView;
+	
+	// constructor
+	public LoginController(UserModel userModel, LoginView loginView) {
+		super();
+		this.userModel = userModel;
+		this.loginView = loginView;
+	}
+	
+	// standard constructor (overloading)
+	public LoginController() {
+		super();
+	}
 	
 	// path for logging
 	private static final Path LOG_FILE_PATH = Path.of("logs", "local_activity.log");
@@ -42,6 +60,23 @@ public class LoginController {
 		public int getSeverity() {
 			return severity;
 		}
+	}
+	
+	// getter/setter for referring objects
+	public UserModel getUserModel() {
+		return userModel;
+	}
+
+	public void setUserModel(UserModel userModel) {
+		this.userModel = userModel;
+	}
+
+	public LoginView getLoginView() {
+		return loginView;
+	}
+
+	public void setLoginView(LoginView loginView) {
+		this.loginView = loginView;
 	}
 	
 	// writes a new log entry
@@ -79,7 +114,7 @@ public class LoginController {
 			System.err.println("Fehler beim Schreiben der Nachricht: " + io.getMessage());
 		}
 	}
-	
+
 	// read log data
 	public void readActivityLogFile() {
 		if (!Files.exists(LOG_FILE_PATH)) {
