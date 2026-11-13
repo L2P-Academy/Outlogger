@@ -146,7 +146,13 @@ public class LoginView extends JFrame{
 		                this, "Login erfolgreich!"
 		            );
 
-		            // TODO: Hier später zur MainView wechseln?
+		            if (username.equals("Admin")) {
+			            loginController.writeActivityToLogFile(
+				                LogLevel.INFO,
+				                "AdminView started!"
+				            );
+		            	new AdminView();
+					}
 
 		        } else {
 		            loginController.writeActivityToLogFile(
