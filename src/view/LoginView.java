@@ -97,21 +97,27 @@ public class LoginView extends JFrame{
 		passwordRow.add(passwordField, BorderLayout.CENTER);
 		passwordRow.add(showPwButton, BorderLayout.EAST);
 		
-		loginPanel.add(userNameTextField);
 		loginPanel.add(userNameLabel);
+		loginPanel.add(userNameTextField);
 		loginPanel.add(Box.createVerticalStrut(30));
-		loginPanel.add(passwordRow);
 		loginPanel.add(passwordLabel);
-		
+		loginPanel.add(passwordRow);
+
 		centerPanel.add(loginPanel);
 		
-		// buttons
+		// buttons (auch auf Mac visible)
 		buttonPanel = new JPanel(new FlowLayout());
 		loginButton = new JButton("Login");
+		loginButton.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+		loginButton.setOpaque(true);
 		beautifyButton(loginButton);
 		registerButton = new JButton("Register");
+		registerButton.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+		registerButton.setOpaque(true);
 		beautifyButton(registerButton);
 		closeButton = new JButton("Close");
+		closeButton.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+		closeButton.setOpaque(true);
 		beautifyButton(closeButton);
 		
 		buttonPanel.add(loginButton);
