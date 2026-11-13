@@ -7,6 +7,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="res"/>
-	<classpathentry kind="src" path="logs"/>
+	<classpathentry excluding="/" kind="src" path="logs"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
