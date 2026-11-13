@@ -8,5 +8,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="res"/>
 	<classpathentry kind="src" path="logs"/>
+	<classpathentry kind="src" path="xml"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

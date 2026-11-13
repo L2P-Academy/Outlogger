@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -17,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -25,6 +27,7 @@ import javax.swing.border.Border;
 
 import controller.LoginController;
 import controller.LoginController.LogLevel;
+import controller.XmlController;
 
 public class LoginView extends JFrame{
 	// attributes
@@ -38,8 +41,9 @@ public class LoginView extends JFrame{
 	private JButton loginButton, registerButton, closeButton, showPwButton;
 	
 	public LoginView() {
-		// initialize controller
+		// initialize controllers
 		LoginController loginController = new LoginController();
+		XmlController xmlController = new XmlController();
 		
 		// initial window parameters
 		setTitle("Outlogger - Security Simulator");
@@ -116,21 +120,81 @@ public class LoginView extends JFrame{
 		buttonPanel.setOpaque(false);
 		
 		// actions / events
-		loginButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				loginController.writeActivityToLogFile(LogLevel.WARNING, "User " + userNameTextField.getText() + " tried to"
-						+ "login with password: " + passwordField.getPassword().toString() + " but doesn't exist in AuthDB!");
-			}
+		loginButton.addActionListener(e -> {
+		    String username = userNameTextField.getText().trim();
+		    char[] password = passwordField.getPassword();
+
+		    try {
+		        boolean success = xmlController.login(
+		            username,
+		            new String(password)
+		        );
+
+		        if (success) {
+		            loginController.writeActivityToLogFile(
+		                LogLevel.INFO,
+		                "User " + username + " logged in."
+		            );
+
+		            JOptionPane.showMessageDialog(
+		                this, "Login erfolgreich!"
+		            );
+
+		            // TODO: Hier später zur MainView wechseln?
+
+		        } else {
+		            loginController.writeActivityToLogFile(
+		                LogLevel.WARNING,
+		                "Failed login attempt for user: " + username
+		            );
+
+		            JOptionPane.showMessageDialog(
+		                this, "Benutzername oder Passwort falsch!"
+		            );
+		        }
+
+		    } catch (IOException ex) {
+		        ex.printStackTrace();
+
+		        JOptionPane.showMessageDialog(
+		            this, "Fehler beim Lesen der Benutzerdaten!"
+		        );
+		    }
 		});
 		
-		registerButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				loginController.writeActivityToLogFile(LogLevel.NOTICE, "User " + userNameTextField.getText() + " registered.");
-			}
+		registerButton.addActionListener(e -> {
+		    String username = userNameTextField.getText().trim();
+		    char[] password = passwordField.getPassword();
+
+		    try {
+		        boolean registered = xmlController.registerUser(
+		            username,
+		            new String(password)
+		        );
+
+		        if (registered) {
+		            loginController.writeActivityToLogFile(
+		                LogLevel.NOTICE,
+		                "User " + username + " registered."
+		            );
+
+		            JOptionPane.showMessageDialog(
+		                this, "Registrierung erfolgreich!"
+		            );
+		        } else {
+		            JOptionPane.showMessageDialog(
+		                this, "Benutzer existiert bereits!"
+		            );
+		        }
+
+		    } catch (IOException | IllegalArgumentException ex) {
+		        ex.printStackTrace();
+
+		        JOptionPane.showMessageDialog(
+		            this,
+		            "Registrierung fehlgeschlagen: " + ex.getMessage()
+		        );
+		    }
 		});
 		
 		closeButton.addActionListener(new ActionListener() {

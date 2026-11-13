@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- String userName, String pwHash, Date registeredDate, Date lastLoginDate, boolean isAdmin --><users>
+  <user>
+    <name>Admin</name>
+    <pwHash>5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8</pwHash>
+    <registeredDate>09.11.2026</registeredDate>
+    <lastLoginDate>13.11.2026</lastLoginDate>
+    <isAdmin>true</isAdmin>
+  </user>
+  <user>
+    <name>Donald Duck</name>
+    <pwHash>1b222f98083443e52fc8e34b96913c9ea17224d9cb76ca12f2cc7c822cad89dc</pwHash>
+    <registeredDate>10.11.2026</registeredDate>
+    <lastLoginDate>12.11.2026</lastLoginDate>
+    <isAdmin>false</isAdmin>
+  </user>
+  <user>
+    <name>Mickey Mouse</name>
+    <pwHash>8dad5f6a7dd2dcd8c35ec2fd7babb499bcad60d27d73fe73eca2ce025dfd3b47</pwHash>
+    <registeredDate>13.11.2026</registeredDate>
+    <lastLoginDate>13.11.2026</lastLoginDate>
+    <isAdmin>false</isAdmin>
+  </user>
+  <user>
+    <name>Sachbearbeiter</name>
+    <pwHash>8560238a5c8bc92156109da0e9335ddb1ab0faff8a291b38491c4354e7947efc</pwHash>
+    <registeredDate>13.11.2026</registeredDate>
+    <lastLoginDate>13.11.2026</lastLoginDate>
+    <isAdmin>false</isAdmin>
+  </user>
+</users>
