@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Image;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
@@ -78,22 +79,65 @@ public class LoginView extends JFrame{
 		userNameTextField.setMaximumSize(new Dimension(300, 30));
 		userNameTextField.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
-		// password
+		// Password label
 		passwordLabel = new JLabel("password");
 		passwordLabel.setForeground(Color.WHITE);
 		passwordLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		
+
+		// Password field
 		passwordField = new JPasswordField();
-		passwordField.setPreferredSize(new Dimension(300, 30));
-		
-		showPwButton = new JButton("<o>");
-		
-		// assemble login objects
+		passwordField.setPreferredSize(new Dimension(260, 100));
+
+		// Password visibility icons
+		ImageIcon eyeClosedIcon = new ImageIcon(
+		    new ImageIcon("res/eye_closed.png")
+		        .getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH)
+		);
+
+		ImageIcon eyeOpenIcon = new ImageIcon(
+		    new ImageIcon("res/eye_open.png")
+		        .getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH)
+		);
+
+		// Password visibility button
+		char defaultEchoChar = passwordField.getEchoChar();
+		boolean[] passwordVisible = {false};
+
+		showPwButton = new JButton(eyeClosedIcon);
+
+		showPwButton.setPreferredSize(new Dimension(64, 64));
+		showPwButton.setFocusPainted(false);
+		showPwButton.setBorderPainted(false);
+		showPwButton.setContentAreaFilled(false);
+		showPwButton.setOpaque(false);
+		showPwButton.setToolTipText("Show password");
+
+		// Toggle password visibility
+		showPwButton.addActionListener(e -> {
+
+		    passwordVisible[0] = !passwordVisible[0];
+
+		    passwordField.setEchoChar(
+		        passwordVisible[0] ? (char) 0 : defaultEchoChar
+		    );
+
+		    showPwButton.setIcon(
+		        passwordVisible[0] ? eyeOpenIcon : eyeClosedIcon
+		    );
+
+		    showPwButton.setToolTipText(
+		        passwordVisible[0] ? "Hide password" : "Show password"
+		    );
+		});
+
+		// Assemble password row
 		JPanel passwordRow = new JPanel(new BorderLayout(5, 0));
+
 		passwordRow.setOpaque(false);
+		passwordRow.setPreferredSize(new Dimension(300, 30));
 		passwordRow.setMaximumSize(new Dimension(300, 30));
 		passwordRow.setAlignmentX(Component.LEFT_ALIGNMENT);
-		
+
 		passwordRow.add(passwordField, BorderLayout.CENTER);
 		passwordRow.add(showPwButton, BorderLayout.EAST);
 		
