@@ -28,4 +28,11 @@
     <lastLoginDate>13.11.2026</lastLoginDate>
     <isAdmin>false</isAdmin>
   </user>
+  <user>
+    <name>Dagobert Duck</name>
+    <pwHash>ee9a21409ee4b57608bea1318fbdcfd4acbfac5d603bdd7f03a19ef34f0ffb2a</pwHash>
+    <registeredDate>13.11.2026</registeredDate>
+    <lastLoginDate>16.11.2026</lastLoginDate>
+    <isAdmin>false</isAdmin>
+  </user>
 </users>

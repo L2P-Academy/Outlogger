@@ -38,6 +38,13 @@ public class LoginView extends JFrame{
 	private JLabel headerLabel, userNameLabel, passwordLabel;
 	private JTextField userNameTextField;
 	private JPasswordField passwordField;
+	
+	private char passwordEchoChar;
+	private boolean passwordVisible = false;
+
+	private ImageIcon eyeOpenIcon;
+	private ImageIcon eyeClosedIcon;
+	
 	private JButton loginButton, registerButton, closeButton, showPwButton;
 	
 	public LoginView() {
@@ -84,9 +91,41 @@ public class LoginView extends JFrame{
 		passwordLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		passwordField = new JPasswordField();
-		passwordField.setPreferredSize(new Dimension(300, 30));
-		
-		showPwButton = new JButton("<o>");
+		passwordField.setPreferredSize(new Dimension(255, 30));
+
+		// Ursprüngliches Passwortzeichen speichern
+		passwordEchoChar = passwordField.getEchoChar();
+
+		// Augen-Icons laden und auf 22 x 22 Pixel skalieren
+		eyeOpenIcon = new ImageIcon(
+		    new ImageIcon("res/eye_open.png").getImage()
+		        .getScaledInstance(22, 22, java.awt.Image.SCALE_SMOOTH)
+		);
+
+		eyeClosedIcon = new ImageIcon(
+		    new ImageIcon("res/eye_closed.png").getImage()
+		        .getScaledInstance(22, 22, java.awt.Image.SCALE_SMOOTH)
+		);
+
+		// Augen-Button erstellen
+		showPwButton = new JButton(eyeClosedIcon);
+
+		showPwButton.setPreferredSize(new Dimension(40, 30));
+		showPwButton.setMinimumSize(new Dimension(40, 30));
+		showPwButton.setMaximumSize(new Dimension(40, 30));
+
+		showPwButton.setBackground(new Color(10, 50, 100));
+		showPwButton.setForeground(Color.WHITE);
+
+		showPwButton.setOpaque(true);
+		showPwButton.setContentAreaFilled(true);
+		showPwButton.setBorderPainted(true);
+		showPwButton.setBorder(
+		    BorderFactory.createLineBorder(Color.WHITE, 1)
+		);
+
+		showPwButton.setFocusPainted(false);
+		showPwButton.setToolTipText("Passwort anzeigen");
 		
 		// assemble login objects
 		JPanel passwordRow = new JPanel(new BorderLayout(5, 0));
@@ -126,6 +165,36 @@ public class LoginView extends JFrame{
 		buttonPanel.setOpaque(false);
 		
 		// actions / events
+		// Passwort anzeigen / verbergen
+		showPwButton.addActionListener(e -> {
+
+		    if (passwordVisible) {
+
+		        // Passwort wieder verbergen
+		        passwordField.setEchoChar(passwordEchoChar);
+		        showPwButton.setIcon(eyeClosedIcon);
+		        showPwButton.setToolTipText("Passwort anzeigen");
+
+		        passwordVisible = false;
+
+		    } else {
+
+		        // Passwort im Klartext anzeigen
+		        passwordField.setEchoChar((char) 0);
+		        showPwButton.setIcon(eyeOpenIcon);
+		        showPwButton.setToolTipText("Passwort verbergen");
+
+		        passwordVisible = true;
+
+		        // Anzeige im Log dokumentieren
+		        String username = userNameTextField.getText().trim();
+
+		        loginController.writeActivityToLogFile(
+		            LogLevel.NOTICE,
+		            "Password displayed in plain text for user: " + username
+		        );
+		    }
+		});
 		loginButton.addActionListener(e -> {
 		    String username = userNameTextField.getText().trim();
 		    char[] password = passwordField.getPassword();
